@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import SignUp from '../views/SignUp.vue';
 import Login from '../views/Login.vue';
 import UserList from '../views/UserList.vue';
-// import Home from '../views/Home.vue';
+import Home from '../views/Home.vue';
 import MovieIndexPage from '../components/MovieIndexPage.vue'
 import MovieShowPage from '../components/MovieShowPage.vue';
 import Board from '../components/Board.vue';
@@ -12,11 +12,11 @@ import Card from '../components/Card.vue';
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
   {
     path: '/movies',
     name: 'MovieIndexPage',
