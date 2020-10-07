@@ -5,7 +5,7 @@
     <router-link to="/signup">Signup </router-link>
     <router-link to="/login">Login </router-link>
     <router-link to="/userlist">Userlist </router-link>
-    <router-link to="/b/1">Board </router-link>
+    <router-link to="/b/1">Boardd </router-link>
     <router-view></router-view>
   </div>
 </template>
