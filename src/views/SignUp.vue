@@ -19,6 +19,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -32,8 +33,10 @@ export default {
   methods: {
     // signUp 메소드에서는 axios로 /api/users/signUp을 호출하여, 입력받은 데이터(this.user)를 user 객체에 저장합니다. 
     signUp: function() {
+      console.log('signUp method 실행됨');
       this.$http.post('/users/signup', {user: this.user})
         .then((res) => { // 정상 처리 되면, 성공 메시지를 노출하고 login 페이지로 이동을 시키며,
+          console.log('axios 성공');
           if(res.data.success == true) {
             alert(res.data.msg);
             // this.$router.push('/login')
@@ -42,7 +45,8 @@ export default {
           }
         })
         .catch(function(error) { // 실패하면 에러 메시지를 띄웁니다.
-          alert(error);
+          console.log('axios실행 중 에러');
+          alert(error.stack);
         })
     }
   }
