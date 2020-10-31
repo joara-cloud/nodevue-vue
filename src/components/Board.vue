@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <div v-if="loading">
-      loading board...
+  <div class="content">
+    <div class="board">
+      <div v-if="loading">
+        loading board...
+      </div>
+      <div v-else>
+        <div>bid : {{this.bid}}</div>
+        <router-link v-bind:to="`/b/${bid}/c/1`">Card 1</router-link>
+        <router-link v-bind:to="`/b/${bid}/c/2`">Card 2</router-link>
+      </div>
+      
+      <hr />
+      <router-view></router-view>
     </div>
-    <div v-else>
-      <div>bid : {{this.bid}}</div>
-      <router-link v-bind:to="`/b/${bid}/c/1`">Card 1</router-link>
-      <router-link v-bind:to="`/b/${bid}/c/2`">Card 2</router-link>
-    </div>
-    
-    <hr />
-    <router-view></router-view>
   </div>
 </template>
 

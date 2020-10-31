@@ -1,21 +1,29 @@
 <template>
   <div id="app">
-    <router-link to="/">Home </router-link>
-    <!-- <router-link to="/movies">movies </router-link> -->
-    <router-link to="/signup">Signup </router-link>
-    <router-link to="/login">Login </router-link>
-    <router-link to="/userlist">Userlist </router-link>
-    <router-link to="/b/1">Boardd </router-link>
-    <router-view></router-view>
+    <!-- <div id="header"></div>
+    <div id="container">
+      <router-view></router-view>
+    </div>
+    <div id="footer"></div> -->
+    <component :is="layout">
+      <router-view></router-view>
+    </component>
   </div>
 </template>
 
 <script>
-// import Home from './components/Home';
 
-// export default {
-//   components: {
-//     Home
-//   }
-// }
+export default {
+  name: 'app',
+  // computed: {
+  //   layout() {
+  //     return (this.$route.meta.layout || defaultLayout) + '-layout'
+  //   }
+  // }
+}
 </script>
+
+<style>
+@import './assets/css/reset.css';
+#container {max-width:1140px;width:100%;margin:0 auto;padding:80px 0}
+</style>

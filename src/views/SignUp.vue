@@ -1,20 +1,22 @@
 <template>
-  <div>
-    <form method="post" v-on:submit.prevent="signUp">
-      <div class="input_row">
-        <label for="id">아이디</label>
-        <input type="text" id="id" v-model="user.userid">
-      </div>
-      <div class="input_row">
-        <label for="name">이름</label>
-        <input type="text" id="name" v-model="user.name">
-      </div>
-      <div class="input_row">
-        <label for="password">비밀번호</label>
-        <input type="password" name="pasword" id="pasword" v-model="user.password">
-      </div>
-      <button type="submit">회원가입</button>
-    </form>
+  <div id="content">
+    <div class="sign_up">
+      <form method="post" v-on:submit.prevent="signUp">
+        <div class="input_row">
+          <label for="id">아이디</label>
+          <input type="text" id="id" v-model="user.userid">
+        </div>
+        <div class="input_row">
+          <label for="name">이름</label>
+          <input type="text" id="name" v-model="user.name">
+        </div>
+        <div class="input_row">
+          <label for="password">비밀번호</label>
+          <input type="password" name="pasword" id="pasword" v-model="user.password">
+        </div>
+        <button type="submit">회원가입</button>
+      </form>
+    </div>
   </div>
 </template>
 
