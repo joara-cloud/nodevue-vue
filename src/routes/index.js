@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
-import Card from '../components/Card.vue';
+import Card from '../views/Card.vue';
 
 Vue.use(VueRouter)
 
@@ -24,9 +24,6 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    meta: {
-      layout: 'blank'
-    },
     component: () => import('../views/Login.vue')
   },
   {
@@ -37,7 +34,7 @@ const routes = [
   {
     path: '/b/:bid',
     name: 'Board',
-    component: () => import('../components/Board.vue'),
+    component: () => import('../views/Board.vue'),
     children: [
       {
         path: 'c/:cid',
@@ -48,6 +45,9 @@ const routes = [
   {
     path: '*',
     name: 'notfound',
+    meta: {
+      layout: 'blank'
+    },
     component: () => import('../views/404.vue')
   }
 ]

@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <!-- <div id="header"></div>
-    <div id="container">
-      <router-view></router-view>
-    </div>
-    <div id="footer"></div> -->
     <component :is="layout">
       <router-view></router-view>
     </component>
@@ -13,13 +8,14 @@
 
 <script>
 
+const defaultLayout = 'default';
 export default {
   name: 'app',
-  // computed: {
-  //   layout() {
-  //     return (this.$route.meta.layout || defaultLayout) + '-layout'
-  //   }
-  // }
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || defaultLayout) + '-layout'
+    }
+  }
 }
 </script>
 

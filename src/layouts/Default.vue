@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div id="wrap">
     <Navbar />
-    <main class="main">
+    <div id="container">
       <slot></slot>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -15,7 +15,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
