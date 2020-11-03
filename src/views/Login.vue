@@ -4,11 +4,11 @@
       <form method="post" v-on:submit.prevent="onSubmit">
         <div class="input_row">
           <label for="">아이디</label>
-          <input type="text" id="id" v-model="user.id">
+          <input type="text" id="id" v-model="user.id" placeholder="test@test.com">
         </div>
         <div class="input_row">
           <label for="">비밀번호</label>
-          <input type="password" id="password" v-model="user.password" autocomplete="off">
+          <input type="password" id="password" v-model="user.password" placeholder="123123">
         </div>
         <button type="submit" :disabled="invalidForm">로그인</button>
       </form>
@@ -44,9 +44,9 @@ export default {
       auth.login(this.user.id, this.user.password)
         .then(data => {
           localStorage.setItem('token', data.accessToken);
+          // this.$session.set('user_no',data.accessToken);
           setAuthInHeader(data.accessToken);
           this.$router.push(this.rPath);
-          console.log(data);
         })
         .catch(error => {
           console.log('error : '+ error);

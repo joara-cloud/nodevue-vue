@@ -5,10 +5,13 @@
         <h1><router-link to="/">AppName</router-link></h1>
         <ul class="gnb">
           <li><router-link to="/about">About</router-link></li>
-          <li><router-link to="/login">Login</router-link></li>
-          <li><router-link to="/signup">Signup</router-link></li>
-          <li><router-link to="/userlist">Userlist</router-link></li>
+          <!-- <li><router-link to="/userlist">Userlist</router-link></li> -->
           <li><router-link to="/b/1">Board</router-link></li>
+          <li><router-link to="/signup">Signup</router-link></li>
+          <li>
+            <a href="" v-if="isAuth" @click.prevent="logout">Logout</a>
+            <router-link to="/login" v-else>Login</router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -16,8 +19,26 @@
 </template>
 
 <script>
-export default {
+import {setAuthInHeader} from '../api';
 
+export default {
+  data() {
+    return {
+      test: ''
+    }
+  },
+  computed: {
+    isAuth() {
+      return !!localStorage.getItem('token');
+    }
+  },
+  methods: {
+    logout() {
+      delete localStorage.token;
+      setAuthInHeader(null);
+      this.$router.push('/login');
+    }
+  }
 }
 </script>
 

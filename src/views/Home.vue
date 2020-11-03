@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     Home
-    <div>
+    <!-- <div>
       Board List : 
       <div v-if="loading">Loading...</div>
       <div v-else>
@@ -13,7 +13,7 @@
         <li><router-link to="/b/1">Board 1</router-link></li>
         <li><router-link to="/b/2">Board 2</router-link></li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
     }
   },
   created() {
-    this.fetchData();
+    // this.fetchData();
   },
   methods: {
     fetchData() {
