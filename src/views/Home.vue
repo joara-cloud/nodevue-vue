@@ -1,19 +1,18 @@
 <template>
-  <div id="main">
-    Home
-    <!-- <div>
-      Board List : 
-      <div v-if="loading">Loading...</div>
-      <div v-else>
-        <div v-for="b in boards" :key="b.id">
-          <p>{{b}}</p>
-        </div>
+  <div>
+    <h2>Personal Board</h2>
+    <div class="board-list" ref="boardList">
+      <div class="board-item" v-for="b in boards" :key="b.id" :data-bgColor="b.bgColor" ref="boarddItem">
+        <router-link :to="`/b/${b.id}`">
+          <div class="board-item-title">{{b.title}}</div>
+        </router-link>
       </div>
-      <ul>
-        <li><router-link to="/b/1">Board 1</router-link></li>
-        <li><router-link to="/b/2">Board 2</router-link></li>
-      </ul>
-    </div> -->
+      <div class="board-item board-item-new">
+        <a href="" class="new-board-btn" @click.prevent="addBoard">
+          Create new board...
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,11 +23,17 @@ export default {
   data() {
     return {
       loading: false, 
-      boards: ''
+      boards: [],
+      error: ''
     }
   },
   created() {
-    // this.fetchData();
+    this.fetchData();
+  },
+  updated() {
+    this.$refs.boardItem.forEach(el => {
+      el.style.backgroundColor = el.dataset.bgColor;
+    })
   },
   methods: {
     fetchData() {
@@ -36,7 +41,8 @@ export default {
 
       board.fetch()
         .then(data => {
-          this.boards = data;
+          console.log(data.list);
+          this.boards = data.list;
         })
         .finally(() => {
           this.loading = false;

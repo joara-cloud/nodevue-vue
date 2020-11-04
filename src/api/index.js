@@ -23,7 +23,7 @@ const request = (method, url, data) => { // request : backend API 요청
 }
 
 export const setAuthInHeader = token => {
-  axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null;
+  axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null; // 모든 request를 날리기전에 header값을 토큰정보로 설정
 }
 
 export const board = {
