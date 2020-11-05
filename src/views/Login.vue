@@ -43,6 +43,7 @@ export default {
     onSubmit() {
       auth.login(this.user.id, this.user.password)
         .then(data => {
+          console.dir(data);
           localStorage.setItem('token', data.accessToken);
           this.$session.set('user_id',data.user.id);
           setAuthInHeader(data.accessToken);
@@ -53,23 +54,5 @@ export default {
         })
     }
   }
-  // methods: {
-  //   onSubmit() {
-  //     this.$http.post('/users/login', {user: this.user})
-  //       .then(response => {
-  //         console.log(response);
-  //         if(response.data.success) {
-  //           alert(response.data.msg);
-  //           this.$router.push('/');
-  //         }else {
-  //           alert(response.data.msg);
-  //         }
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //         return;
-  //       })
-  //   }
-  // }
 }
 </script>
