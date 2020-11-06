@@ -43,7 +43,6 @@ export default {
     onSubmit() {
       auth.login(this.user.id, this.user.password)
         .then(data => {
-          console.dir(data);
           localStorage.setItem('token', data.accessToken);
           this.$session.set('user_id',data.user.id);
           setAuthInHeader(data.accessToken);
