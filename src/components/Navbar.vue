@@ -16,7 +16,7 @@
       </div>
     </nav>
   </div>
-</template>
+</template> 
 
 <script>
 import {setAuthInHeader} from '../api';
