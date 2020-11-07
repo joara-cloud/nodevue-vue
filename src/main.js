@@ -3,6 +3,7 @@ import App from './App.vue'
 import {router} from './routes/index.js'
 import axios from 'axios';
 import VueSession from 'vue-session';
+import store from './store';
 
 import Default from './layouts/Default.vue';
 import Blank from './layouts/Blank.vue';
@@ -21,5 +22,6 @@ Vue.prototype.$http = axios;
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

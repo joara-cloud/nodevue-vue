@@ -28,12 +28,16 @@ export default {
     return {
       loading: false, 
       boards: [],
-      error: '',
-      isAddBoard: false
+      error: ''
     }
   },
   components: {
     addBoard
+  },
+  computed: {
+    isAddBoard() {
+      return this.$store.state.isAddBoard;
+    }
   },
   beforeCreate() {
     // console.log(this.$session.get("user_id"));
