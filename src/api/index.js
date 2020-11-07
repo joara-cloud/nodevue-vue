@@ -4,7 +4,7 @@ import {router} from '../routes';
 const DOMAIN = 'http://localhost:3000';
 const UNAUTHORIZED = 401;
 const onUnauthrorized = () => { // 401코드가 오면 처리해주는 함수
-  router.push('/login');
+  router.push('/login'); // 로그인 페이지로 이동
 }
 
 const request = (method, url, data) => { // request : backend API 요청
@@ -29,6 +29,9 @@ export const setAuthInHeader = token => {
 export const board = {
   fetch() {
     return request('get', '/boards');
+  },
+  create(title) {
+    return request('post', '/boards', {title});
   }
 }
 

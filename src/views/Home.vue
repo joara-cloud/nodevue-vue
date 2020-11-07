@@ -13,19 +13,27 @@
         </a>
       </div>
     </div>
+    <add-board v-if="isAddBoard" @close="isAddBoard = false" @submit="onAddBoard"></add-board> 
+    <!-- 1. close이벤트가 발생하면 isAddBoard=false -->
+    <!-- 2. 자식 컴포넌트(AddBoard.vue)에서 submit이벤트가 발생하면 onAddBoard함수가 실행 -->
   </div>
 </template>
 
 <script>
 import {board, setAuthInHeader} from '../api';
+import addBoard from '../components/AddBoard.vue';
 
 export default {
   data() {
     return {
       loading: false, 
       boards: [],
-      error: ''
+      error: '',
+      isAddBoard: false
     }
+  },
+  components: {
+    addBoard
   },
   beforeCreate() {
     // console.log(this.$session.get("user_id"));
@@ -61,7 +69,13 @@ export default {
         });
     },
     addBoard() {
-      console.log('addBoard()');
+      this.isAddBoard = true;
+    },
+    onAddBoard(title) {
+      board.create(title)
+        .then(() => {
+          this.fetchData(); // 다시 보드 목록을 호출해서 화면을 다시 그림
+        })
     }
   }
 }
