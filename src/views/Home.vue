@@ -8,36 +8,31 @@
         </router-link>
       </div>
       <div class="board-item board-item-new">
-        <a href="" class="new-board-btn" @click.prevent="addBoard">
+        <a href="" class="new-board-btn" @click.prevent="SET_IS_ADD_BOARD(true)">
           Create new board...
         </a>
       </div>
     </div>
-    <add-board v-if="isAddBoard" @close="isAddBoard = false" @submit="onAddBoard"></add-board> 
+    <add-board v-if="isAddBoard" @close="isAddBoard = false"></add-board> 
     <!-- 1. close이벤트가 발생하면 isAddBoard=false -->
     <!-- 2. 자식 컴포넌트(AddBoard.vue)에서 submit이벤트가 발생하면 onAddBoard함수가 실행 -->
   </div>
 </template>
 
 <script>
-import {board, setAuthInHeader} from '../api';
+import {setAuthInHeader} from '../api';
 import addBoard from '../components/AddBoard.vue';
+import {mapState, mapMutations, mapActions} from 'vuex'
 
 export default {
   data() {
     return {
       loading: false, 
-      boards: [],
       error: ''
     }
   },
   components: {
     addBoard
-  },
-  computed: {
-    isAddBoard() {
-      return this.$store.state.isAddBoard;
-    }
   },
   beforeCreate() {
     // console.log(this.$session.get("user_id"));
@@ -46,6 +41,12 @@ export default {
     // }else {
     //   // this.$router.push({ name: 'home' });
     // }
+  },
+  computed: {
+    ...mapState([
+      'isAddBoard',
+      'boards'
+    ])
   },
   created() {
     this.fetchData();
@@ -56,30 +57,24 @@ export default {
     })
   },
   methods: {
+    ...mapMutations([
+      'SET_IS_ADD_BOARD'
+    ]),
+    ...mapActions([
+      'FETCH_BOARDS'
+    ]),
     fetchData() {
       this.loading = true;
       
       setAuthInHeader(localStorage.getItem('token'));
 
-      board.fetch()
-        .then(data => {
-          this.boards = data.list;
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.FETCH_BOARDS().finally(() => {
+        this.loading = false;
+      });
     },
     addBoard() {
-      this.isAddBoard = true;
-    },
-    onAddBoard(title) {
-      board.create(title)
-        .then(() => {
-          this.fetchData(); // 다시 보드 목록을 호출해서 화면을 다시 그림
-        })
+      // this.isAddBoard = true;
+      this.$store.commit('SET_IS_ADD_BOARD', true)
     }
   }
 }
