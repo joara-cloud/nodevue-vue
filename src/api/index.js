@@ -26,6 +26,9 @@ export const setAuthInHeader = token => {
   axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null; // 모든 request를 날리기전에 header값을 토큰정보로 설정
 }
 
+// const {token} = localStorage // 로그인 관련된 일은 store에 입력되어있음
+// if(token) setAuthInHeader(token)
+
 export const board = {
   fetch() {
     return request('get', '/boards');

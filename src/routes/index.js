@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
 import Card from '../views/Card.vue';
+import store from '../store';
 
 Vue.use(VueRouter);
 
@@ -10,19 +10,17 @@ Vue.use(VueRouter);
 
 // 로그인 유무 체크해서 페이지 경로 이동
 const requireAuth = (to, from, next) => {
-  // 로컬스토리지에 토큰이 있는지 없는지 체크
-  const isAuth = localStorage.getItem('token');
-  console.log('isAuth : '+isAuth);
   // const isAuth = Vue.$session.get('user_no');
   const loginPath = `/login?rPath=${encodeURIComponent(to.path)}` // 로그인이 완료되면 현재페이지로 redirect // to : 현재 경로가 들어있음
-  isAuth ? next() : next(loginPath); // 로그인이 돼서 토큰값이 있으면 next()를 호출, 그렇지 않으면 loginPath로 리다이렉트
+  store.getters.isAuth ? next() : next(loginPath); // 로컬스토리지에 토큰이 있는지 없는지 체크 후 토큰값이 있으면 next()를 호출, 그렇지 않으면 loginPath로 리다이렉트
 }
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component:  Home
+    component: () => import('../views/Home.vue'),
+    beforeEnter: requireAuth
   },
   {
     path: '/about',
