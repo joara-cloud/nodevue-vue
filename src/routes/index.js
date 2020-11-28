@@ -23,6 +23,11 @@ const routes = [
     beforeEnter: requireAuth
   },
   {
+    path: '/chart',
+    name: 'chart',
+    component: () => import('../views/Chart.vue')
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('../views/About.vue')
