@@ -15,7 +15,6 @@ const request = (method, url, data) => { // request : backend API 요청
   })
   .then(result => result.data) // result.data는 body 데이터인데 이것을 넘겨줌
   .catch(result => {
-    console.log('catch : '+result);
     const {status} = result.response; // {status}는 result.response에서 status를 가지고 온 거
     if(status === UNAUTHORIZED) return onUnauthrorized();
     throw Error(result);
@@ -30,17 +29,17 @@ export const setAuthInHeader = token => {
 // if(token) setAuthInHeader(token)
 
 export const board = {
-  fetch() {
-    return request('get', '/boards');
+  fetch(id) {
+    return id ? request('get', `/boards/${id}`) : request('get', '/boards') // 보드 하나를 조회할때는 localhost:3000/boards/1 이 경로로 보게 되어있으니 board/하고 id
   },
   create(title) {
-    return request('post', '/boards', {title});
+    return request('post', '/boards', {title})
   }
 }
 
 export const auth = {
   login(email, password) {
-    return request('post', '/login', {email, password});
+    return request('post', '/login', {email, password})
   }
 }
 
