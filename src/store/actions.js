@@ -17,9 +17,14 @@ const actions = { // API호출과 같은 비동기 로직을 담당
 	},
 	FETCH_BOARD ({commit}, {id}) {
 		return api.board.fetch(id).then(data => {
-			console.log(data.item);
 			commit('SET_BOARD', data.item)
 		})
+	},
+	ADD_CARD ({dispatch, state}, {title, listId, pos}) { // context의 dispatch를 가져옴
+		return api.card.create(title, listId, pos)
+			.then(() => {
+				dispatch('FETCH_BOARD', {id: state.board.id}) // 카드 추가 후 그 결과를 화면에 뿌리기, 두 번째 인자로 아이디 넘겨주기 (state Vuex상태로 선택된 board를 관리하고있음 그래서 state를 가져와야하는데 이것도 context객체에서 가져옴)
+			})
 	}
 }
 

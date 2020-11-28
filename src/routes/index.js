@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Card from '../views/Card.vue';
+import Card from '../components/Card.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -52,10 +52,10 @@ const routes = [
     name: 'Board',
     beforeEnter: requireAuth,
     component: () => import('../views/Board.vue'),
-    children: [
+    children: [ // 중첩 라우팅
       {
         path: 'c/:cid',
-        component: Card
+        component: Card // 이 Card컴포넌트는 Board컴포넌트 내에 출력이 됨 (즉, Board.vue 내 router-view 영역에 출력이 됨)
       }
     ]
   },

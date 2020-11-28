@@ -19,15 +19,27 @@
         <div class="board-header">
           <span class="board-title">{{board.title}}</span> <!-- board는 전역상태에서 가져온 것 -->
         </div>
+        <div class="list-section-wrapper">
+          <div class="list-section">
+            <div class="list-wrapper" v-for="list in board.lists" v-bind:key="list.pos">
+              <List v-bind:data="list" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <router-view></router-view> <!-- 중첩 라우팅 영역 -->
   </div>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
+import List from '../components/List.vue'
 
 export default {
+  components: {
+    List
+  },
   data() {
     return {
       bid: 0,
@@ -108,7 +120,7 @@ export default {
   position: relative;
 }
 .list-section {
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   left: 0;
   right: 0;
