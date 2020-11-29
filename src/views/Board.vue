@@ -35,7 +35,7 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import List from '../components/List.vue'
-import Dragula from 'dragula'
+import dragula from 'dragula'
 import 'dragula/dist/dragula.css'
 
 export default {
@@ -61,14 +61,38 @@ export default {
   updated() { // 보드 컴포넌트 내에 있는 자식 컴포넌트들이 모두 렌더링 된 후에 설정을 해줘야하는데 자식컴포넌트가 다 마운트 되는 시점인 updated에서 실행을 함
     if (this.dragulaCard) this.dragulaCard.destroy()
 
-    this.dragulaCard = Dragula([
-      ...Array.from(this.$el.querySelectorAll('.card-list')), // container를 배열로 반환해야함. 유사배열이기 때문에 Array.from으로 처리
-    ]).on('drop', (el, wrapper, target, siblings) => { // 마우스를 뗄 때 발생하는 이벤트 (콜백함수가 전달해주는 인자가 4개)
+    this.dragulaCard = dragula([
+      ...Array.from(this.$el.querySelectorAll('.card-list')), // container를 배열로 반환해야함. 유사배열이기 때문에 Array.from으로 처리 (옮겨질 .card-item를 감싸고 있는 .card-list를 선택)
+    ]).on('drop', (el, wrapper) => { // 마우스를 뗄 때 발생하는 이벤트 (콜백함수가 전달해주는 인자가 4개)
+      const targetCard = { // 어디로 이동해야할지 그 정보를 담고 있는 객체
+        id: el.dataset.cardId * 1, // *1 : 문자열을 숫자로 바꿔줌 (card id를 받으려면 CardItem.vue에서 data속성을 설정)
+        pos: 65535
+      }
+
+      // 앞 뒤에 어떤 카드들이 있는지 확인
+      let prevCard = null
+      let nextCard = null
+      Array.from(wrapper.querySelectorAll('.card-item')) // wrapper는 움직이는 아이템을 감싸고 있는 .card-list이고, querySelectorAll은 유사배열이니깐 Array.from으로 뽑고 forEach 사용!!
+        .forEach((el, idx, arr) => {
+          const cardId = el.dataset.cardId * 1
+          if (cardId == targetCard.id) { // 배열을 순회하고있는 cardId가 이동하고자 하는 카드(targetCard.id)와 동일하다면
+            prevCard = idx > 0 ? { // 이동하고자 하는 카드가 첫번째 카드가 아님
+              id: arr[idx - 1].dataset.cardId * 1,
+              pos: arr[idx - 1].dataset.cardPos * 1,
+            } : null // idx가 0이거나 0보다 작으면 맨앞에 있는거기때문에 이전카드는 없는것으로 판단 (null)
+
+            nextCard = idx < arr.length-1 ? { // 마지막이 아니라면? 다음 카드가 있는거겠지
+              id: arr[idx + 1].dataset.cardId * 1,
+              pos: arr[idx + 1].dataset.cardPos * 1,
+            } : null // idx가 마지막 배열보다 크면 다음 카드는 없는것으로 판단
+          }
+        })
       
-      /* eslint-disable no-debugger */
-  debugger;
-/* eslint-enable no-debugger */
-      console.log(el, wrapper, target, siblings);
+      if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2 // 첫 번째 카드일 때
+      else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2 // 마지막 카드일 때
+      else if (prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2 // 중간 카드일 때
+
+      console.log(targetCard);
     })
   },
   methods: {
