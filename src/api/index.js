@@ -46,6 +46,12 @@ export const auth = {
 export const card = {
   create(title, listId, pos) {
     return request('post', '/cards', {title, listId, pos})
+  },
+  fetch(id) {
+    return request('get', `/cards/${id}`)
+  },
+  update(id, payload) { //payload는 객체
+    return request('put', `/cards/${id}`, payload)
   }
 }
 
@@ -67,7 +73,7 @@ export const card = {
 // [Delete board]
 // curl -X DELETE localhost:3000/boards/1 -H 'Authorization: Bearer token'"
 // [Add list]
-// curl -X POST localhost:3000/lists -H 'Authorization: Bearer token' -d "title=string&boardId=number&pos=number"
+// curl -X POST localhost:3000/lists -H 'Authorization: Bearer token' -d "title=string&boardId=number&pos=number" // 지금은 number를 기본값으로 65,000이 서버에서 설정되어있음
 // [Edit list]
 // curl -X PUT localhost:3000/lists/1 -H 'Authorization: Bearer token' -d "title=string&pos=number"
 // [Delete list]

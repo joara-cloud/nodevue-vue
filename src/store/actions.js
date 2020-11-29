@@ -25,7 +25,22 @@ const actions = { // API호출과 같은 비동기 로직을 담당
 			.then(() => {
 				dispatch('FETCH_BOARD', {id: state.board.id}) // 카드 추가 후 그 결과를 화면에 뿌리기, 두 번째 인자로 아이디 넘겨주기 (state Vuex상태로 선택된 board를 관리하고있음 그래서 state를 가져와야하는데 이것도 context객체에서 가져옴)
 			})
+	},
+	FETCH_CARD({commit}, {id}) {
+		return api.card.fetch(id).then(data => {
+			commit('SET_CARD', data.item)
+		})
+	},
+	UPDATE_CARD ({dispatch, state}, {id, title, description, pos, listId}) {
+		return api.card.update(id, {title, description, pos, listId})
+			.then(() => {
+				dispatch('FETCH_BOARD', {id: state.board.id})
+			})
+			.catch(error => {
+				console.log(error);
+			})
 	}
+
 }
 
 export default actions
