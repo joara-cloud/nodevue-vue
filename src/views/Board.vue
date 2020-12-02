@@ -35,8 +35,7 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import List from '../components/List.vue'
-import dragula from 'dragula'
-import 'dragula/dist/dragula.css'
+
 
 export default {
   components: {
@@ -92,12 +91,13 @@ export default {
       else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2 // 마지막 카드일 때
       else if (prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2 // 중간 카드일 때
 
-      console.log(targetCard);
+      this.UPDATE_CARD(targetCard)
     })
   },
   methods: {
     ...mapActions([
-      'FETCH_BOARD'
+      'FETCH_BOARD',
+      'UPDATE_CARD'
     ]),
     fetchData() {
       this.loading = true;
