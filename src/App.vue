@@ -21,7 +21,7 @@ export default {
 
 <style>
 @import './assets/css/reset.css';
-#container {max-width:1140px;width:100%;margin:0 auto;padding:100px 0}
+.content {max-width:1140px;width:100%;margin:0 auto;padding:35px 0 100px}
 html, body, #app {
   height: 100%;
   margin: 0px;

@@ -50,6 +50,7 @@ export default {
   },
   created() {
     this.fetchData();
+    this.SET_THEME() // navBar.vue가 Board 목록이나 상세보기에도 모두 있기때문에 거기서 색상을 지정할꺼임
   },
   updated() {
     this.$refs.boardItem.forEach(el => {
@@ -58,7 +59,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SET_IS_ADD_BOARD'
+      'SET_IS_ADD_BOARD',
+      'SET_THEME'
     ]),
     ...mapActions([
       'FETCH_BOARDS'

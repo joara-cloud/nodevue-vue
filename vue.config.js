@@ -12,6 +12,6 @@ module.exports = {
         }
       }
     },
-    // overlay: false
+    overlay: false
   }
 }

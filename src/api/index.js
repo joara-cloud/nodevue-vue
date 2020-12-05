@@ -52,6 +52,9 @@ export const card = {
   },
   update(id, payload) { //payload는 객체
     return request('put', `/cards/${id}`, payload)
+  },
+  destroy(id) {
+    return request('delete', `/cards/${id}`)
   }
 }
 

@@ -20,7 +20,7 @@
 </template> 
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -29,12 +29,19 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      'bodyColor',
+      'navbarColor'
+      ]),
     ...mapGetters([
       'isAuth'
     ]),
-    // isAuth() {
-    //   return !!localStorage.getItem('token');
-    // }
+  },
+  watch: { // Board.vue에서 fetchData() 후 SET_THEME로 컬러를 넘겨주었지만 state값만 변경되고 실제 DOM에 색상을 적용하는 것은 해당 Navbar.vue의 updateTheme()에서 하고있음 그렇기 때문에 state.navColor나 state.bodyColor 가 변경 됐을 때 updateTheme()이 호출되면 되겠다 그래서 watch로 감시를 걸어줌!
+    'bodyColor': 'updateTheme' // state의 bodyColor를 감시하고 있다가 값이 변경되면 updateTheme 메서드를 실행!
+  },
+  mounted() {
+    this.updateTheme()
   },
   methods: {
     ...mapMutations([
@@ -43,6 +50,14 @@ export default {
     logout() {
       this.LOGOUT()
       this.$router.push('/login');
+    },
+    updateTheme() {
+      this.$el.style.backgroundColor = this.navbarColor // this.$el 는 navbar element를 가져옴
+
+      const body = document.querySelector('body')
+      const container = document.querySelector('.container')
+      if (container) container.style.backgroundColor = this.bodyColor
+      if (body) body.style.backgroundColor = this.bodyColor
     }
   }
 }
@@ -50,9 +65,10 @@ export default {
 
 <style>
 .inner {max-width:1140px;width:100%;margin:0 auto}
-.nav {overflow:hidden;padding:14px 0;background-color:#eaeaea;}
+.nav {overflow:hidden;padding:14px 0;}
+.nav a {color:#fff}
 .nav h1 {float:left;}
 .nav .gnb {float:right;}
 .nav .gnb > li {display:inline-block;margin-left:20px}
-.nav .gnb > li > a {color:#555}
+/* .nav .gnb > li > a {color:#555} */
 </style>

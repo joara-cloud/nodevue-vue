@@ -39,6 +39,12 @@ const actions = { // API호출과 같은 비동기 로직을 담당
 			.catch(error => {
 				console.log(error);
 			})
+	},
+	DELETE_CARD ({dispatch, state}, {id}) {
+		return api.card.destroy(id)
+		.then(() => {
+			dispatch('FETCH_BOARD', {id: state.board.id})
+		})
 	}
 
 }
