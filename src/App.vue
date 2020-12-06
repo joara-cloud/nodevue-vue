@@ -3,24 +3,14 @@
     <component :is="layout">
       <router-view></router-view>
     </component>
-    <check-box v-model="checked"></check-box> <!-- v-model="checked" 이 부분이 props로 내려가게 됨 (value라는 값으로!!) -->
   </div>
 </template>
 
 <script>
-import CheckBox from './components/CheckBox'
 
 const defaultLayout = 'default';
 export default {
   name: 'app',
-  components: {
-    CheckBox
-  },
-  data() {
-    return {
-      checked: false
-    }
-  },
   computed: {
     layout() {
       return (this.$route.meta.layout || defaultLayout) + '-layout'
@@ -40,9 +30,10 @@ html, body, #app {
   display: flex;
   flex-direction: column;
 }
+#wrap {height:100%}
 .container {
   flex-grow: 1;
-  position: relative;
+  position: relative;height:100%
 }
 .btn {
   border-radius: 3px;

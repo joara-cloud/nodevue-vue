@@ -8,10 +8,10 @@
           <li><router-link to="/chart">Chart</router-link></li>
           <!-- <li><router-link to="/userlist">Userlist</router-link></li> -->
           <li><router-link to="/b/1">Board</router-link></li>
-          <li><router-link to="/signup">Signup</router-link></li>
+          <li v-if="!isAuth"><router-link to="/signup" class="btn">Signup</router-link></li>
           <li>
-            <a href="" v-if="isAuth" @click.prevent="logout">Logout</a>
-            <router-link to="/login" v-else>Login</router-link>
+            <a href="" v-if="isAuth" @click.prevent="logout" class="btn">Logout</a>
+            <router-link to="/login" v-else class="btn">Login</router-link>
           </li>
         </ul>
       </div>
@@ -67,7 +67,9 @@ export default {
 .inner {max-width:1140px;width:100%;margin:0 auto}
 .nav {overflow:hidden;padding:14px 0;}
 .nav a {color:#fff}
+.nav a.btn {color:#222}
 .nav h1 {float:left;}
+.nav .inner {display:flex;justify-content:space-between;align-items:center}
 .nav .gnb {float:right;}
 .nav .gnb > li {display:inline-block;margin-left:20px}
 /* .nav .gnb > li > a {color:#555} */

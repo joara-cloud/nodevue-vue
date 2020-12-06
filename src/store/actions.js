@@ -20,6 +20,16 @@ const actions = { // API호출과 같은 비동기 로직을 담당
 			commit('SET_BOARD', data.item)
 		})
 	},
+	DELETE_BOARD (_, {id}) {
+		return api.board.destroy(id)
+			// .then(() => {
+			// 	dispatch('FETCH_BOARD')
+			// })
+	},
+	UPDATE_BOARD({dispatch, state}, {id, title, bgColor}) {
+		return api.board.update(id, {title, bgColor})
+		.then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+	},
 	ADD_CARD ({dispatch, state}, {title, listId, pos}) { // context의 dispatch를 가져옴
 		return api.card.create(title, listId, pos)
 			.then(() => {
@@ -45,7 +55,8 @@ const actions = { // API호출과 같은 비동기 로직을 담당
 		.then(() => {
 			dispatch('FETCH_BOARD', {id: state.board.id})
 		})
-	}
+	},
+
 
 }
 

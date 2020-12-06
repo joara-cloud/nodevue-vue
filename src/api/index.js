@@ -1,10 +1,15 @@
 import axios from 'axios';
 import {router} from '../routes';
+import state from '../store/state';
 
 const DOMAIN = 'http://localhost:3000';
 const UNAUTHORIZED = 401;
+const NOTFOUND = 404;
 const onUnauthrorized = () => { // 401코드가 오면 처리해주는 함수
   router.push('/login'); // 로그인 페이지로 이동
+}
+const onNotFound = () => {
+  router.push('/')
 }
 
 const request = (method, url, data) => { // request : backend API 요청
@@ -17,6 +22,7 @@ const request = (method, url, data) => { // request : backend API 요청
   .catch(result => {
     const {status} = result.response; // {status}는 result.response에서 status를 가지고 온 거
     if(status === UNAUTHORIZED) return onUnauthrorized();
+    else if(status === NOTFOUND) onNotFound();
     throw Error(result);
   })
 }
@@ -34,6 +40,12 @@ export const board = {
   },
   create(title) {
     return request('post', '/boards', {title})
+  },
+  destroy(id) {
+    return request('delete', `/boards/${id}`)
+  },
+  update(id, payload) {
+    return request('put', `/boards/${id}`, payload)
   }
 }
 

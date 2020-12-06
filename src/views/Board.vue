@@ -18,6 +18,7 @@
       <div class="board">
         <div class="board-header">
           <span class="board-title">{{board.title}}</span> <!-- board는 전역상태에서 가져온 것 -->
+          <a href="" class="board-header-btn show-menu" @click.prevent="onShowSettings">... Show Menu</a>
         </div>
         <div class="list-section-wrapper">
           <div class="list-section">
@@ -28,6 +29,7 @@
         </div>
       </div>
     </div>
+    <board-settings v-if="isShowBoardSetting"></board-settings>
     <router-view></router-view> <!-- 중첩 라우팅 영역 -->
   </div>
 </template>
@@ -35,11 +37,13 @@
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
 import List from '../components/List.vue'
+import BoardSettings from '../components/BoardSetting'
 import dragger from '../utils/dragger'
 
 export default {
   components: {
-    List
+    List,
+    BoardSettings
   },
   data() {
     return {
@@ -50,7 +54,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'board'
+      'board',
+      'isShowBoardSetting'
     ])
   },
   created() {
@@ -58,6 +63,9 @@ export default {
       .then(() => {
         this.SET_THEME(this.board.bgColor)
       });
+
+    this.SET_IS_SHOW_BOARD_MENU(false)
+    
   },
   updated() { // 보드 컴포넌트 내에 있는 자식 컴포넌트들이 모두 렌더링 된 후에 설정을 해줘야하는데 자식컴포넌트가 다 마운트 되는 시점인 updated에서 실행을 함
     this.setCardDragabble()
@@ -68,7 +76,8 @@ export default {
       'UPDATE_CARD'
     ]),
     ...mapMutations([
-      'SET_THEME'
+      'SET_THEME',
+      'SET_IS_SHOW_BOARD_MENU'
     ]),
     fetchData() {
       this.loading = true;
@@ -102,6 +111,9 @@ export default {
         
         this.UPDATE_CARD(targetCard)
       })
+    },
+    onShowSettings() {
+      this.SET_IS_SHOW_BOARD_MENU(true)
     }
   }
 }
