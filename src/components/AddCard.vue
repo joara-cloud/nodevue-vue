@@ -51,7 +51,6 @@ export default {
 		},
 		setupClickOutside(el) {
 			document.querySelector('body').addEventListener('click', e => {
-				console.log(el.contains(e.target));
 				if(el.contains(e.target)) return // contains 함수 : 클릭한 엘리먼트를 포함하고있는지 -> 포함하고 있다면 현재 컴포넌트를 클릭한거기 때문에 아무동작하지 않기
 				this.$emit('close') // 현재 컴포넌트를 클릭하지 않았다면 close 이벤트 (add card컴포넌트 닫기)
 			})

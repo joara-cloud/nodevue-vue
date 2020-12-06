@@ -26,6 +26,7 @@ html, body, #app {
   height: 100%;
   margin: 0px;
 }
+input {font-family: 'Noto Sans KR', sans-serif;}
 #app {
   display: flex;
   flex-direction: column;

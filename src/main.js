@@ -12,6 +12,11 @@ import Blank from './layouts/Blank.vue';
 // plugins
 import ChartPlugin from './plugins/ChartPlugin.js';
 
+// bootstrap 
+// import BootstrapVue from 'bootstrap-vue'
+// import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 Vue.component('default-layout', Default);
 Vue.component('blank-layout', Blank);
 
@@ -20,6 +25,7 @@ const sessionOptions = {
 }
 Vue.use(VueSession, sessionOptions);
 Vue.use(ChartPlugin); // install() 이라는 메서드가 실행될꺼임
+// Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;

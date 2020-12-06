@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <h2>Personal Board</h2>
     <div class="board-list" ref="boardList">
       <div class="board-item" v-for="b in boards" :key="b.id" :data-bgColor="b.bgColor" ref="boardItem">

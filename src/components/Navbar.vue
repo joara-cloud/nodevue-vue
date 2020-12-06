@@ -2,7 +2,7 @@
   <div id="header">
     <nav class="nav">
       <div class="inner">
-        <h1><router-link to="/">AppName</router-link></h1>
+        <h1 class="logo"><router-link to="/">Home</router-link></h1>
         <ul class="gnb">
           <li><router-link to="/about">About</router-link></li>
           <li><router-link to="/chart">Chart</router-link></li>
@@ -64,6 +64,7 @@ export default {
 </script>
 
 <style>
+.logo {font-size:26px}
 .inner {max-width:1140px;width:100%;margin:0 auto}
 .nav {overflow:hidden;padding:14px 0;}
 .nav a {color:#fff}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {router} from '../routes';
-import state from '../store/state';
+// import state from '../store/state';
 
 const DOMAIN = 'http://localhost:3000';
 const UNAUTHORIZED = 401;
@@ -55,6 +55,12 @@ export const auth = {
   }
 }
 
+export const list = {
+  create(payload) {
+    return request('post', `/lists`, payload)
+  }
+}
+
 export const card = {
   create(title, listId, pos) {
     return request('post', '/cards', {title, listId, pos})
@@ -87,14 +93,16 @@ export const card = {
 // curl -X PUT localhost:3000/boards/1 -H 'Authorization: Bearer token' -d "title=string&bgColor=string"
 // [Delete board]
 // curl -X DELETE localhost:3000/boards/1 -H 'Authorization: Bearer token'"
+
 // [Add list]
-// curl -X POST localhost:3000/lists -H 'Authorization: Bearer token' -d "title=string&boardId=number&pos=number" // 지금은 number를 기본값으로 65,000이 서버에서 설정되어있음
+// curl -X POST localhost:3000/lists -H 'Authorization: Bearer token' -d "title=string&boardId=number&pos=number"
 // [Edit list]
 // curl -X PUT localhost:3000/lists/1 -H 'Authorization: Bearer token' -d "title=string&pos=number"
 // [Delete list]
 // curl -X DELETE localhost:3000/lists/1 -H 'Authorization: Bearer token'
+
 // [Add card]
-// curl -X POST localhost:3000/cards -H 'Authorization: Bearer token' -d "title=string&listId=number&pos=number"
+// curl -X POST localhost:3000/cards -H 'Authorization: Bearer token' -d "title=string&listId=number&pos=number" // 지금은 number를 기본값으로 65,000이 서버에서 설정되어있음
 // [Get card]
 // curl localhost:3000/cards/1 -H 'Authorization: Bearer token'
 // [Edit card]

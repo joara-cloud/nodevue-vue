@@ -1,12 +1,16 @@
 import * as api from '../api' // 여러개를 export하니깐 전부 api라는 닉네임으로 받겠다고 해야함 (?)
 
 const actions = { // API호출과 같은 비동기 로직을 담당
+
+	// LOGIN 
 	LOGIN ({commit}, {email, password}) { 
 		return api.auth.login(email, password)
 			.then( ({accessToken}) => {
 				commit('LOGIN', accessToken)
 			})
 	},
+
+	// BOARD
 	ADD_BOARD(_, {title}) { // context객체를 처음 받게되는데 사용하지 않을꺼니깐 언너바(_)로 넣음
 		return api.board.create(title).then(data => data.item) // Promise를 리턴하고있음
 	},
@@ -22,14 +26,19 @@ const actions = { // API호출과 같은 비동기 로직을 담당
 	},
 	DELETE_BOARD (_, {id}) {
 		return api.board.destroy(id)
-			// .then(() => {
-			// 	dispatch('FETCH_BOARD')
-			// })
 	},
 	UPDATE_BOARD({dispatch, state}, {id, title, bgColor}) {
 		return api.board.update(id, {title, bgColor})
 		.then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
 	},
+
+	// LIST
+	ADD_LIST ({dispatch, state}, {title, boardId, pos}) {
+		return api.list.create({title, boardId, pos})
+			.then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+	},
+
+	// CARD 
 	ADD_CARD ({dispatch, state}, {title, listId, pos}) { // context의 dispatch를 가져옴
 		return api.card.create(title, listId, pos)
 			.then(() => {

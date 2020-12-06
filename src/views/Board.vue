@@ -17,13 +17,18 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <span class="board-title">{{board.title}}</span> <!-- board는 전역상태에서 가져온 것 -->
+          <!-- <span class="board-title">{{board.title}}</span>  -->
+          <input type="text" class="board-title" v-bind:value="board.title" ref="boardTitle" :readonly="!isEditTitle" @click="isEditTitle=true" @blur="blurInput" @keyup.enter="blurInput"> 
+          <!-- board는 전역상태에서 가져온 것 -->
           <a href="" class="board-header-btn show-menu" @click.prevent="onShowSettings">... Show Menu</a>
         </div>
         <div class="list-section-wrapper">
           <div class="list-section">
             <div class="list-wrapper" v-for="list in board.lists" v-bind:key="list.pos">
               <List v-bind:data="list" />
+            </div>
+            <div class="list-wrapper">
+              <add-list></add-list>
             </div>
           </div>
         </div>
@@ -37,19 +42,22 @@
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
 import List from '../components/List.vue'
+import AddList from '../components/AddList.vue'
 import BoardSettings from '../components/BoardSetting'
 import dragger from '../utils/dragger'
 
 export default {
   components: {
     List,
+    AddList,
     BoardSettings
   },
   data() {
     return {
       bid: 0,
       loading: false,
-      cDragger: null // dragula 객체
+      cDragger: null, // dragula 객체
+      isEditTitle: false,
     }
   },
   computed: {
@@ -59,13 +67,14 @@ export default {
     ])
   },
   created() {
+    
     this.fetchData()
       .then(() => {
         this.SET_THEME(this.board.bgColor)
       });
 
     this.SET_IS_SHOW_BOARD_MENU(false)
-    
+
   },
   updated() { // 보드 컴포넌트 내에 있는 자식 컴포넌트들이 모두 렌더링 된 후에 설정을 해줘야하는데 자식컴포넌트가 다 마운트 되는 시점인 updated에서 실행을 함
     this.setCardDragabble()
@@ -73,6 +82,7 @@ export default {
   methods: {
     ...mapActions([
       'FETCH_BOARD',
+      'UPDATE_BOARD',
       'UPDATE_CARD'
     ]),
     ...mapMutations([
@@ -110,10 +120,31 @@ export default {
         else if (prev && next) targetCard.pos = (prev.pos + next.pos) / 2 // 중간 카드일 때
         
         this.UPDATE_CARD(targetCard)
+
+        console.log('xxx : '+target, siblings);
       })
     },
     onShowSettings() {
       this.SET_IS_SHOW_BOARD_MENU(true)
+    },
+    blurInput() {
+      const id = this.board.id
+      const inputBoardTitle = this.$refs.boardTitle.value.trim()
+
+      if(!inputBoardTitle) { // 입력값이 아무것도 없으면 return
+        this.isEditTitle = false
+        return
+      } 
+
+      if(this.board.title === inputBoardTitle) { // 기존 타이틀과 수정하려는 타이틀이 같으면 return
+        this.isEditTitle = false
+        return
+      } 
+      
+      this.UPDATE_BOARD({id, title: inputBoardTitle, bgColor: this.board.bgColor})
+        .then(() => {
+          this.isEditTitle = false
+        })
     }
   }
 }
@@ -141,6 +172,7 @@ export default {
 } 
 .board-header input[type=text] {
   width: 200px;
+  outline:none
 }
 .board-header-btn {
   border-radius: 4px;
@@ -158,7 +190,9 @@ export default {
 .board-title {
   font-weight: 700;
   font-size: 18px;
+  
 }
+.board-title:read-only {border:0;background-color:transparent;cursor:pointer}
 .show-menu {
   font-size: 14px;
   position: absolute;

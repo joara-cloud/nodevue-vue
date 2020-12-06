@@ -1,5 +1,5 @@
 <template>
-  <div id="content">
+  <div id="content" class="content">
     <div class="login">
       <form method="post" v-on:submit.prevent="onSubmit">
         <div class="input_row">
