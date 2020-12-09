@@ -211,7 +211,7 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  padding: 0 10px;
+  padding: 0 10px 50px;
 }
 .list-wrapper {
   display: inline-block;
