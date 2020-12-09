@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Render</title>
+</head>
+<body>
+	<div id="app">
+		<!-- {{message}} -->
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				message: 'hefll2o'
+			},
+			// template: '<p>{{message}}</p>',
+			// 실제로 template을 라이브러리 내부적으로 구현해주는게 render function (react에서는 render함수로 다 구현하고 별도로 template표현식을 작성하지 않음, vue에서는 내부적으로 작성을 해줬기 때문에 굳이 render함수를 작성하지 않아도 되는거임)
+			render: function (createElement) { // 기본적으로 createElement라는 것을 인지로 받음
+				// return createElement('태그 이름', '태그 속성', '하위 태그 내용')
+				return createElement('p', this.message);
+			}
+		})
+	</script>
+</body>
+</html>
