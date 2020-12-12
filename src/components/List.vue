@@ -1,13 +1,16 @@
 <!-- 상위 : Board.vue -->
 
 <template>
-	<div class="list">
+	<div class="list" :data-list-id="data.id" :data-list-pos="data.pos">
 		<div class="list-header">
 			<div class="list-header-title">{{data.title}}</div>
+      <a href="" class="delete-list-btn" @click.prevent="onDeleteList">&times;</a>
 		</div>
-		<div class="card-list">
+
+		<div class="card-list" :data-list-id="data.id">
 			<card-item v-for="card in data.cards" v-bind:key="card.id" v-bind:data="card" />
 		</div>
+
 		<div v-if="isAddCard">
 			<add-card v-on:close="isAddCard=false" v-bind:listId="data.id"></add-card>
 		</div>
@@ -23,6 +26,7 @@
 <script>
 import AddCard from './AddCard.vue'
 import CardItem from './CardItem.vue'
+import {mapActions} from 'vuex'
 
 export default {
 	components: {
@@ -34,7 +38,16 @@ export default {
 		return {
 			isAddCard: false
 		}
-	}
+  },
+  methods: {
+    ...mapActions([
+      'DELETE_LIST'
+    ]),
+    onDeleteList() {
+      if(!window.confirm(`Delete ${this.data.title} list?`)) return
+      this.DELETE_LIST({id: this.data.id})
+    }
+  }
 }
 </script>
 
