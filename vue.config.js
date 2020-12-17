@@ -12,6 +12,7 @@ module.exports = {
         }
       }
     },
-    overlay: false
-  }
+    overlay: false,
+  },
+  // runtimeCompiler: true
 }

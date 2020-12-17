@@ -24,7 +24,7 @@
         </div>
         <div class="list-section-wrapper">
           <div class="list-section">
-            <div class="list-wrapper" v-for="list in board.lists" v-bind:key="list.pos">
+            <div class="list-wrapper" v-for="list in board.lists" v-bind:key="list.pos" :data-list-id="list.id">
               <List v-bind:data="list" />
             </div>
             <div class="list-wrapper">
@@ -56,7 +56,8 @@ export default {
     return {
       bid: 0,
       loading: false,
-      cDragger: null, // dragula 객체
+      cDragger: null, // dragula 객체 (card)
+      lDragger: null, // dragula 객체 (list)
       isEditTitle: false,
     }
   },
@@ -78,12 +79,14 @@ export default {
   },
   updated() { // 보드 컴포넌트 내에 있는 자식 컴포넌트들이 모두 렌더링 된 후에 설정을 해줘야하는데 자식컴포넌트가 다 마운트 되는 시점인 updated에서 실행을 함
     this.setCardDragabble()
+    this.setListDragabble()
   },
   methods: {
     ...mapActions([
       'FETCH_BOARD',
       'UPDATE_BOARD',
-      'UPDATE_CARD'
+      'UPDATE_CARD',
+      'UPDATE_LIST'
     ]),
     ...mapMutations([
       'SET_THEME',
@@ -102,9 +105,10 @@ export default {
       this.cDragger = dragger.init(Array.from(this.$el.querySelectorAll('.card-list'))) // container를 전달해줌, 유사배열이기 때문에 Array.from으로 처리 (옮겨질 .card-item를 감싸고 있는 .card-list를 선택)
 
       this.cDragger.on('drop', (el, wrapper, target, siblings) => { // 마우스를 뗄 때 발생하는 이벤트 (콜백함수가 전달해주는 인자가 4개)
-      
+
         const targetCard = { // 어디로 이동해야할지 그 정보를 담고 있는 객체
           id: el.dataset.cardId * 1, // *1 : 문자열을 숫자로 바꿔줌 (card id를 받으려면 CardItem.vue에서 data속성을 설정)
+          listId: wrapper.dataset.listId * 1,
           pos: 65535
         }
          
@@ -120,8 +124,6 @@ export default {
         else if (prev && next) targetCard.pos = (prev.pos + next.pos) / 2 // 중간 카드일 때
         
         this.UPDATE_CARD(targetCard)
-
-        console.log('xxx : '+target, siblings);
       })
     },
     onShowSettings() {
@@ -145,6 +147,38 @@ export default {
         .then(() => {
           this.isEditTitle = false
         })
+    },
+    setListDragabble() {
+      if (this.lDragger) this.lDragger.destroy() // 기존 객체 삭제
+
+      const options = {
+        invalid: (el, handle) => !/^list/.test(handle.className) // list로 시작하지 않는 클래스명을 가진 아이에게 invalid속성을 적용 (즉 .add-list에 적용)
+      }
+      this.lDragger = dragger.init(
+        Array.from(this.$el.querySelectorAll('.list-section')), // container를 전달해줌, 유사배열이기 때문에 Array.from으로 처리 (옮겨질 item을 감싸고 있는 list-section을 선택)
+        options // dragula api 자체에 두번쨰 인자로 option값을 받기때문에 여기서 option을 넘겨줌
+      )
+
+      this.lDragger.on('drop', (el, wrapper, target, siblings) => { // 마우스를 뗄 때 발생하는 이벤트 (콜백함수가 전달해주는 인자가 4개)
+      
+        const targetList = { // 어디로 이동해야할지 그 정보를 담고 있는 객체
+          id: el.dataset.listId * 1, // *1 : 문자열을 숫자로 바꿔줌 (card id를 받으려면 CardItem.vue에서 data속성을 설정)
+          pos: 65535
+        }
+         
+        const {prev, next} = dragger.siblings({ // dragger.js의 silblings에서 prev, next값을 가져옴
+          el, 
+          wrapper, 
+          candidates: Array.from(wrapper.querySelectorAll('.list')), // 카드 리스트들을 전달해줌
+          type: 'list'
+        })
+
+        if (!prev && next) targetList.pos = next.pos / 2 // 첫 번째 카드일 때
+        else if (!next && prev) targetList.pos = prev.pos * 2 // 마지막 카드일 때
+        else if (prev && next) targetList.pos = (prev.pos + next.pos) / 2 // 중간 카드일 때
+        
+        this.UPDATE_LIST(targetList)
+      })
     }
   }
 }

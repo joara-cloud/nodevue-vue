@@ -41,16 +41,14 @@ export default {
   position: relative;
 }
 .card-item a {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  display:block;
   text-decoration: none;
   color: #444;
   word-wrap: break-word;
   white-space: normal;
   overflow: hidden;
   font-size:14px;
-  min-height:26px;
+  line-height:1.7;
 }
 .card-item:hover,
 .card-item:focus {
@@ -59,6 +57,7 @@ export default {
 }
 .card-item-meta {
   font-size: 26px;
+  line-height:1;
   color: #8c8c8c;  
 }
 .delete-card-btn {

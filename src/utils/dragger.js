@@ -2,8 +2,8 @@ import dragula from 'dragula'
 import 'dragula/dist/dragula.css'
 
 const dragger = { // dragger라는 모듈 생성
-	init(container) { // 초기화
-		return dragula([...container]) // dragular 함수를 호출할 때 container를 받아서 객체를 생성
+	init(container, options) { // 초기화
+		return dragula([...container], options) // dragular 함수를 호출할 때 container를 받아서 객체를 생성, 두 번째 인자로 options를 넘겨줌
 	},
 	siblings({el, wrapper, candidates, type}) { // 인자로 주워진 target(인자로 넘어온 값)를 기준으로해서 prev, next를 반환함, candidates: 배열을 돌수있는 후보군들, type: card or list
 		const curId = el.dataset[type + 'Id'] * 1

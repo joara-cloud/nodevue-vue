@@ -1,37 +1,27 @@
 import Vue from 'vue'
+import VueRouter from 'vue-router'
 import App from './App.vue'
-import {router} from './routes/index.js'
-import axios from 'axios';
-import VueSession from 'vue-session';
-import store from './store';
 
-// layouts
-import Default from './layouts/Default.vue';
-import Blank from './layouts/Blank.vue';
-
-// plugins
-import ChartPlugin from './plugins/ChartPlugin.js';
-
-// bootstrap 
-// import BootstrapVue from 'bootstrap-vue'
-// import 'bootstrap/dist/css/bootstrap.min.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-Vue.component('default-layout', Default);
-Vue.component('blank-layout', Blank);
-
-const sessionOptions = {
-  persist: true
+const Login = {
+  template: '<div>Login Page</div>'
 }
-Vue.use(VueSession, sessionOptions);
-Vue.use(ChartPlugin); // install() 이라는 메서드가 실행될꺼임
-// Vue.use(BootstrapVue);
+const NotFound = {
+  template: '<div>Page not found</div>'
+}
 
-Vue.config.productionTip = false;
-Vue.prototype.$http = axios;
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    { path: '/', component: App }, // 우선순위는 위에서부터 찾음
+    { path: '/login', component: Login },
+    { path: '*', component: NotFound }
+  ]
+})
 
 new Vue({
+  el: '#app',
   router,
-  store,
   render: h => h(App)
-}).$mount('#app')
+})
+
+// 해쉬(#) : 브라우저에서 라우팅할 때 해쉬백 모드라는 것이 동작하고 있음 브라우저에 히스토리 API가 없을 경우에는 해쉬백모드를 사용하는데 크롬은 히스토리 API가 있기때문에 해시백 모드를 사용하지않고 히스토리 모드를 사용함 mode: 'history'
