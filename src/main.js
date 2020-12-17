@@ -31,15 +31,6 @@ Vue.use(ChartPlugin); // install() 이라는 메서드가 실행될꺼임
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
 
-const router = new VueRouter({
-  mode: 'history',
-  routes: [
-    { path: '/', component: App }, // 우선순위는 위에서부터 찾음
-    { path: '/login', component: Login },
-    { path: '*', component: NotFound }
-  ]
-})
-
 new Vue({
   router,
   store,
